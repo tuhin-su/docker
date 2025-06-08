@@ -1,0 +1,8 @@
+{
+    "stack":[
+        "angular",
+        "node",
+        "postgres",
+        "mariadb"
+    ]
+}
