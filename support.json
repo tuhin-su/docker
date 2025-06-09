@@ -3,6 +3,11 @@
         "angular",
         "node",
         "postgres",
-        "mariadb"
+        "mariadb",
+        "redis",
+        "mongodb",
+        "nginx",
+        "react",
+        "php"
     ]
 }

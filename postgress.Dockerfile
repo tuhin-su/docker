@@ -5,7 +5,7 @@ FROM postgres:${POSTGRES_VERSION}
 ARG HOST_UID=1000
 
 # Install required packages
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     bash sudo curl git \
     && rm -rf /var/lib/apt/lists/*
 
