@@ -11,11 +11,14 @@ RUN apt update && apt install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-# Create a non-root user with sudo
-RUN groupadd -g ${HOST_UID} vscode \
-  && useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode \
-  && usermod -aG sudo vscode \
-  && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# Create a non-root user with sudo (safe for rebuilds)
+RUN groupadd -f -g ${HOST_UID} vscode || true
+RUN useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode
+RUN usermod -aG sudo vscode 
+RUN echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+
+
 
 # Install Composer (fixed)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
