@@ -112,7 +112,21 @@ services:
       - "80:80"
     restart: unless-stopped
 
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Passw0rd
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    restart: unless-stopped
+
 volumes:
   mariadb_data:
   mongodb_data:
   postgres_data:
+  mssql_data:
