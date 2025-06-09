@@ -23,3 +23,4 @@ docker build --build-arg VERSION=latest  --build-arg HOST_UID=1000  -f name.Dock
 ```bash
 docker build --build-arg VERSION=latest  --build-arg HOST_UID=1000 -f mariadb.Dockerfile -t mariadb:latest .
 ```
+## FOR MORE INFO CHECK docker-compose.yml
