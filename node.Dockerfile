@@ -17,12 +17,12 @@ RUN deluser --remove-home node \
   && addgroup vscode wheel
 
 # Set ownership of common dev folders to the vscode user
-RUN mkdir -p /app/angular \
+RUN mkdir -p /app \
   && chown -R vscode:vscode /app \
   && chown -R vscode:vscode /usr/local/lib/node_modules
 
 # Set working directory
-WORKDIR /app/angular
+WORKDIR /app
 
 # Switch to vscode user and install Oh My Bash
 USER vscode

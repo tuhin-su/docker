@@ -38,7 +38,7 @@ services:
         NODE_VERSION: "20-alpine"
         HOST_UID: 1000
     volumes:
-      - ./react-app:/app/react
+      - ./react-app:/app
     ports:
       - "3000:3000"
     command: ["npm", "start"]
@@ -52,7 +52,7 @@ services:
         NODE_VERSION: "20-alpine"
         HOST_UID: 1000
     volumes:
-      - ./node-backend:/app/backend
+      - ./node-backend:/app
     ports:
       - "4000:4000"
     command: ["node", "index.js"]
@@ -67,7 +67,7 @@ services:
         COMPOSER_VERSION: "2.7.1"
         HOST_UID: 1000
     volumes:
-      - ./php-app:/app/php
+      - ./php-app:/app
     ports:
       - "9000:9000"
     command: ["php", "-a"]
@@ -81,7 +81,7 @@ services:
         NG_VERSION: "latest"
         HOST_UID: 1000
     volumes:
-      - ./angular-app:/app/angular
+      - ./angular-app:/app
     ports:
       - "4200:4200"
     command: ["ng", "serve", "--host", "0.0.0.0"]

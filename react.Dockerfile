@@ -14,8 +14,8 @@ RUN addgroup -g ${HOST_UID} vscode \
   && adduser -D -u ${HOST_UID} -G vscode -s /bin/bash vscode \
   && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-WORKDIR /app/react
-RUN chown -R vscode:vscode /app/react
+WORKDIR /app
+RUN chown -R vscode:vscode /app
 
 USER vscode
 RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"

@@ -15,7 +15,7 @@ RUN deluser --remove-home node \
   && addgroup vscode wheel
 
 # Set workdir
-WORKDIR /app/angular
+WORKDIR /app
 
 # Install Angular CLI
 RUN npm install -g npm@${NG_VERSION} @angular/cli

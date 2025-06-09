@@ -10,20 +10,20 @@ RUN apt update && apt install -y \
     && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl bcmath opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
 # Create a non-root user with sudo
 RUN groupadd -g ${HOST_UID} vscode \
   && useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode \
   && usermod -aG sudo vscode \
   && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer \
-  && mv composer.phar /usr/local/bin/composer \
-  && chmod +x /usr/local/bin/composer
+# Install Composer (fixed)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 
 # Set working directory and permissions
-WORKDIR /app/php
-RUN chown -R vscode:vscode /app/php
+WORKDIR /app
+RUN chown -R vscode:vscode /app
 
 # Switch to vscode user and install Oh My Bash
 USER vscode
