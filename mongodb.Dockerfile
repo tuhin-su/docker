@@ -1,6 +1,6 @@
 # Dockerfile.mongodb
-ARG MONGO_VERSION=6.0
-FROM mongo:${MONGO_VERSION}
+ARG VERSION=6.0
+FROM mongo:${VERSION}
 
 ARG HOST_UID=1000
 

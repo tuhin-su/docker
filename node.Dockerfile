@@ -1,6 +1,6 @@
 # Use build arg to select Node version (defaults to lts-alpine)
-ARG NODE_VERSION=lts-alpine
-FROM node:${NODE_VERSION}
+ARG VERSION=lts-alpine
+FROM node:${VERSION}
 
 ARG HOST_UID=1000
 
@@ -23,10 +23,6 @@ RUN mkdir -p /app/angular \
 
 # Set working directory
 WORKDIR /app/angular
-
-# Install Angular CLI with user-defined NPM version
-ARG NG_VERSION=latest
-RUN npm install -g npm@${NG_VERSION} @angular/cli
 
 # Switch to vscode user and install Oh My Bash
 USER vscode

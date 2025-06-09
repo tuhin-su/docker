@@ -1,6 +1,6 @@
 # Use ARG before FROM to allow dynamic base image version
-ARG MSSQL_VERSION=2022-latest
-FROM mcr.microsoft.com/mssql/server:${MSSQL_VERSION}
+ARG VERSION=2022-latest
+FROM mcr.microsoft.com/mssql/server:${VERSION}
 
 ARG HOST_UID=1000
 ENV ACCEPT_EULA=Y

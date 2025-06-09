@@ -1,9 +1,8 @@
 # Dockerfile.php
-ARG PHP_VERSION=8.2-cli
-FROM php:${PHP_VERSION}
+ARG VERSION=8.2-cli
+FROM php:${VERSION}
 
 ARG HOST_UID=1000
-ARG COMPOSER_VERSION=latest
 
 # Install required packages and PHP extensions
 RUN apt update && apt install -y \
@@ -18,7 +17,7 @@ RUN groupadd -g ${HOST_UID} vscode \
   && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --version=${COMPOSER_VERSION} \
+RUN curl -sS https://getcomposer.org/installer \
   && mv composer.phar /usr/local/bin/composer \
   && chmod +x /usr/local/bin/composer
 

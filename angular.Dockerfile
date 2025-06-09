@@ -1,7 +1,7 @@
 FROM node:lts-alpine
 
 ARG HOST_UID=1000
-ARG NG_VERSION=latest
+ARG VERSION=latest
 ENV CHROME_BIN='/usr/bin/chromium-browser'
 
 # Install bash, curl, git, sudo

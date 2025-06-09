@@ -1,4 +1,5 @@
-FROM redis:latest
+ARG VERSION=latest
+FROM redis:${VERSION}
 ARG HOST_UID=1000
 
 RUN apt-get update && apt-get install -y \

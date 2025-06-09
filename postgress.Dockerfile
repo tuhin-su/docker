@@ -1,6 +1,6 @@
 # Use build arg to choose the PostgreSQL version (default to latest)
-ARG POSTGRES_VERSION=latest
-FROM postgres:${POSTGRES_VERSION}
+ARG VERSION=latest
+FROM postgres:${VERSION}
 
 ARG HOST_UID=1000
 

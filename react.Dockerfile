@@ -1,6 +1,6 @@
 # Dockerfile.react
-ARG NODE_VERSION=20-alpine
-FROM node:${NODE_VERSION}
+ARG VERSION=20-alpine
+FROM node:${VERSION}
 
 ARG HOST_UID=1000
 

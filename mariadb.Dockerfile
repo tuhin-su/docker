@@ -1,6 +1,6 @@
 # Use build arg to define MariaDB version (defaults to latest)
-ARG MARIADB_VERSION=latest
-FROM mariadb:${MARIADB_VERSION}
+ARG VERSION=latest
+FROM mariadb:${VERSION}
 
 ARG HOST_UID=1000
 
