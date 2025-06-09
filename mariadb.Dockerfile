@@ -10,21 +10,20 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a new user with bash shell and sudo access
-RUN groupadd -g ${HOST_UID} vscode \
-    && useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode \
-    && usermod -aG sudo vscode \
-    && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN if ! getent group vscode > /dev/null; then \
+        groupadd -g ${HOST_UID} vscode; \
+    fi && \
+    if ! id -u vscode > /dev/null 2>&1; then \
+        useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode; \
+    fi && \
+    usermod -aG sudo vscode && \
+    echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
 
 # Change ownership of important directories to HOST_UID
 RUN chown -R vscode:vscode /var/lib/mysql \
     && chown -R vscode:vscode /var/log/mysql || true \
     && chown -R vscode:vscode /etc/mysql || true
 
-# Install Oh My Bash
-USER vscode
-RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
-
 # Switch back to root (MariaDB still needs root or mysql user for startup)
 USER root
-
-CMD ["mysqld"]
