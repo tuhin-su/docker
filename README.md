@@ -11,6 +11,9 @@
 - `postgress.Dockerfile`
 - `react.Dockerfile`
 - `redis.Dockerfile`
+- `flask.Dockerfile`
+- `phpmyadmin.Dockerfile`
+- `mailhog.Dockerfile`
 
 ---
 
