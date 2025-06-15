@@ -8,7 +8,7 @@
 - `nginx.Dockerfile`
 - `node.Dockerfile`
 - `php.Dockerfile`
-- `postgress.Dockerfile`
+- `postgres.Dockerfile`
 - `react.Dockerfile`
 - `redis.Dockerfile`
 - `flask.Dockerfile`
