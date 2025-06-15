@@ -2,8 +2,6 @@
     "stack":[
         "angular",
         "node",
-        "postgres",
-        "mariadb",
         "redis",
         "mongodb",
         "nginx",

@@ -2,13 +2,10 @@
 ### 📂 Supported Stacks
 
 - `angular.Dockerfile`
-- `mariadb.Dockerfile`
 - `mongodb.Dockerfile`
-- `mssql.Dockerfile`
 - `nginx.Dockerfile`
 - `node.Dockerfile`
 - `php.Dockerfile`
-- `postgres.Dockerfile`
 - `react.Dockerfile`
 - `redis.Dockerfile`
 - `flask.Dockerfile`
