@@ -14,6 +14,7 @@
 - `flask.Dockerfile`
 - `phpmyadmin.Dockerfile`
 - `mailhog.Dockerfile`
+- `pgadmin.Dockerfile`
 
 ---
 

@@ -11,6 +11,7 @@
         "php",
         "flask",
         "phpmyadmin",
-        "mailhog"
+        "mailhog",
+        "pgadmin"
     ]
 }
