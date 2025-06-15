@@ -1,36 +1,35 @@
-# Dockerfile.php
-ARG VERSION=8.2-cli
+ARG VERSION=latest
 FROM php:${VERSION}
 
 ARG HOST_UID=1000
 
-# Install required packages and PHP extensions
+# --- SYSTEM DEPENDENCIES ---
 RUN apt update && apt install -y \
-    bash sudo curl git unzip zip libpng-dev libonig-dev libzip-dev libicu-dev libxml2-dev \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip gd intl bcmath opcache \
+    bash sudo curl git unzip zip \
+    libpng-dev libonig-dev libzip-dev libicu-dev libxml2-dev libpq-dev \
+    postgresql-client \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# --- PHP EXTENSIONS ---
+RUN docker-php-ext-install \
+    pdo pdo_mysql pdo_pgsql mbstring zip gd intl bcmath opcache
 
-# Create a non-root user with sudo (safe for rebuilds)
-RUN groupadd -f -g ${HOST_UID} vscode || true
-RUN useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode
-RUN usermod -aG sudo vscode 
-RUN echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+# --- CREATE NON-ROOT USER ---
+RUN groupadd -f -g ${HOST_UID} vscode \
+    && useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode \
+    && usermod -aG sudo vscode \
+    && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-
-
-
-# Install Composer (fixed)
+# --- COMPOSER INSTALL ---
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-# Set working directory and permissions
+# --- WORKDIR SETUP ---
 WORKDIR /app
 RUN chown -R vscode:vscode /app
 
-# Switch to vscode user and install Oh My Bash
+# --- OPTIONAL: Oh My Bash ---
 USER vscode
 RUN bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh)"
 USER root
-# Default command
+
 CMD ["sleep", "infinity"]
