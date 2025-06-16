@@ -121,6 +121,7 @@ RUN set -ex && \
 # Install common PECL extensions
 RUN set -ex && \
     pecl install \
+        event \
         apcu \
         ast \
         ds \
@@ -144,6 +145,7 @@ RUN set -ex && \
         xhprof \
         yaml && \
     docker-php-ext-enable \
+        event \
         apcu \
         ast \
         ds \
