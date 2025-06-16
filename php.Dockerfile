@@ -1,25 +1,20 @@
 ARG VERSION=latest
-FROM php:${VERSION}
+FROM  wodby/drupal-php:${VERSION}
 
 ARG HOST_UID=1000
 
 # --- SYSTEM DEPENDENCIES ---
-RUN apt update && apt install -y \
+USER root
+RUN apk add --no-cache \
     bash sudo curl git unzip zip \
-    libpng-dev libonig-dev libzip-dev libicu-dev libxml2-dev libpq-dev \
-    postgresql-client \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    libpng-dev oniguruma-dev libzip-dev icu-dev libxml2-dev postgresql-dev
 
-# --- PHP EXTENSIONS ---
-RUN docker-php-ext-install \
-    pdo pdo_mysql pdo_pgsql mbstring zip gd intl bcmath opcache
-
-# --- CREATE NON-ROOT USER ---
-RUN groupadd -f -g ${HOST_UID} vscode \
-    && useradd -m -s /bin/bash -u ${HOST_UID} -g vscode vscode \
-    && usermod -aG sudo vscode \
-    && echo "vscode ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-
+RUN deluser --remove-home wodby \
+  && addgroup -S vscode -g ${HOST_UID} \
+  && adduser -S -G vscode -u ${HOST_UID} -s /bin/bash vscode \
+  && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
+  && addgroup vscode wheel
+  
 # --- COMPOSER INSTALL ---
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
