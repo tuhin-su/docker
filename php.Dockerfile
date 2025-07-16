@@ -1,4 +1,4 @@
-FROM webdevops/php-apache:latest
+FROM  webdevops/php:8.4
 
 USER root
 
