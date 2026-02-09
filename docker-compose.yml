@@ -1,130 +1,35 @@
+version: "3.9"
+
 services:
-  mariadb:
-    build:
-      context: .
-      dockerfile: mariadb.Dockerfile
-      args:
-        MARIADB_VERSION: "10.11"
-        HOST_UID: 1000
+  postgis:
+    image: docker.io/postgis/postgis:16-3.4
+    container_name: postgis
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: devdb
-      MYSQL_USER: devuser
-      MYSQL_PASSWORD: devpass
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-    restart: unless-stopped
-
-  mongodb:
-    build:
-      context: .
-      dockerfile: mongodb.Dockerfile
-      args:
-        MONGO_VERSION: "6.0"
-        HOST_UID: 1000
-    volumes:
-      - mongodb_data:/data/db
-    ports:
-      - "27017:27017"
-    restart: unless-stopped
-
-  react:
-    build:
-      context: .
-      dockerfile: react.Dockerfile
-      args:
-        NODE_VERSION: "20-alpine"
-        HOST_UID: 1000
-    volumes:
-      - ./react-app:/app
-    ports:
-      - "3000:3000"
-    command: ["npm", "start"]
-    restart: unless-stopped
-
-  node:
-    build:
-      context: .
-      dockerfile: node.Dockerfile
-      args:
-        NODE_VERSION: "20-alpine"
-        HOST_UID: 1000
-    volumes:
-      - ./node-backend:/app
-    ports:
-      - "4000:4000"
-    command: ["node", "index.js"]
-    restart: unless-stopped
-
-  php:
-    build:
-      context: .
-      dockerfile: php.Dockerfile
-      args:
-        PHP_VERSION: "8.2-cli"
-        COMPOSER_VERSION: "2.7.1"
-        HOST_UID: 1000
-    volumes:
-      - ./php-app:/app
-    ports:
-      - "9000:9000"
-    command: ["php", "-a"]
-    restart: unless-stopped
-
-  angular:
-    build:
-      context: .
-      dockerfile: angular.Dockerfile
-      args:
-        NG_VERSION: "latest"
-        HOST_UID: 1000
-    volumes:
-      - ./angular-app:/app
-    ports:
-      - "4200:4200"
-    command: ["ng", "serve", "--host", "0.0.0.0"]
-    restart: unless-stopped
-  
-  postgres:
-    build:
-      context: .
-      dockerfile: postgress.Dockerfile
-      args:
-        POSTGRES_VERSION: "latest"
-        HOST_UID: 1000
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_DB: root
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
-    restart: unless-stopped
-
-  nginx:
-    build:
-      context: .
-      dockerfile: nginx.Dockerfile
-      args:
-        HOST_UID: 1000
-    ports:
-      - "80:80"
-    restart: unless-stopped
-
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: mssql
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
-      - MSSQL_PID=Developer
-    ports:
-      - "1433:1433"
     volumes:
-      - mssql_data:/var/opt/mssql
-    restart: unless-stopped
+      - ./data/pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_user -d app_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-volumes:
-  mariadb_data:
-  mongodb_data:
-  postgres_data:
-  mssql_data:
+  redis:
+    image: docker.io/redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    # volumes:
+    #   - ./data/redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
